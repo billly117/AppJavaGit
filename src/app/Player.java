@@ -13,6 +13,7 @@ public class Player {
 	private final String name;
 	/**Score du joueur (initialement nul et toujours positif)*/
 	private int score = 0;
+	/**Nombre de joueurs créés*/
 	
 	
 	/**
@@ -22,6 +23,12 @@ public class Player {
 	public Player(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * Retourne le nombre de joueurs créés
+	 * @return  le nombre de joueurs créés
+	 */
+
 	
 	/**
 	 * Retourne le nom du joueur
@@ -51,6 +58,17 @@ public class Player {
 		return name + " : " + score + " pt";
 		
 	}
+	/**
+	 * Teste l'égalité entre deux objets
+	 * @param obj est l'objet avec lequel on teste l'égalité
+	 * @return un booléen vrai si deux joueurs avec le même nom faux sinon
+	 */	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof Player && this.getName().equalsIgnoreCase(((Player) obj).getName())) {
+			return true;
+		}return false;
+	}
 	
 	/**
 	 * Ajoute ou retire des points au score du  joueur.
@@ -65,4 +83,6 @@ public class Player {
 		}
 		
 	}
+	
+	
 }

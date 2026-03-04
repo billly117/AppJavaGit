@@ -5,6 +5,8 @@ public class Main {
 		
 		Player p1 = new Player("Alice");
 		Player p2 = new Player("Bob");
+		Player p3 = new Player("BOB");
+		Player p4 = p2;
 		
 		System.out.println(p1);
 		System.out.println(p2);
@@ -37,5 +39,18 @@ public class Main {
 		System.out.println("Player 2's informations:");
 		System.out.println("Name : " + p2.getName());
 		System.out.println("Score : " + p2.getScore());
+		
+		System.out.println();
+		
+		System.out.println("Equals's tests:");
+		System.out.println("Player Alice equal to the String \"Alice\" : " + p1.equals("Alice"));
+		System.out.println("Player Alice equal to player Bob : " + p1.equals(p2));
+		System.out.println("Player Bob equal to player BOB : " + p2.equals(p3));
+		System.out.println("Player Bob == BOB : " + (p2 == p3));
+		System.out.println("Player Bob == reference to Bob : " + (p2 == p4));
+		
+		System.out.println();
+		
+		
 	}
 }
