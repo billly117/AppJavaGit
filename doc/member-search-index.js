@@ -1,0 +1,1 @@
+memberSearchIndex = [{"p":"app","c":"Player","l":"getName()"},{"p":"app","c":"Player","l":"getScore()"},{"p":"app","c":"Player","l":"Player(String)","u":"%3Cinit%3E(java.lang.String)"},{"p":"app","c":"Player","l":"toString()"},{"p":"app","c":"Player","l":"updateScore(int)"}];updateSearchResults();
