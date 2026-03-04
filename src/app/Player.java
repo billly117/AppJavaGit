@@ -1,7 +1,7 @@
 package app;
 
 public class Player {
-	private String name;
+	private final String name;
 	private int score = 0;
 	
 	public Player(String name) {
@@ -22,6 +22,11 @@ public class Player {
 	}
 	
 	public void updateScore(int n) {
-		this.score += n;
+		if(this.score + n >= 0) {
+			this.score += n;
+		}else {
+			this.score = 0;
+		}
+		
 	}
 }
