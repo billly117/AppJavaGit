@@ -45,7 +45,11 @@ public class Player {
 	 */	
 	@Override
 	public String toString() {
-		return "Player's name : " + name + ". Player's score : " + score + " pts.";
+		if(this.score>1) {
+			return name + " : " + score + " pts.";
+		}
+		return name + " : " + score + " pt";
+		
 	}
 	
 	/**
