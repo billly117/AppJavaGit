@@ -26,6 +26,15 @@ public class Player {
 		counter ++;
 	}
 	
+	/**
+	 * Initialise un joueur dont le score est nul avec un nom générique.
+	 * @param name nom du joueur
+	 */
+	public Player() {
+		counter ++;
+		this.name = "Joueur" + counter;
+	}
+	
 	
 	
 	/**

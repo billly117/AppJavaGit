@@ -3,10 +3,13 @@ package app;
 public class Main {
 	public static void main(String[] args) {
 		
-		Player p1 = new Player("Alice");
-		Player p2 = new Player("Bob");
-		Player p3 = new Player("BOB");
-		Player p4 = p2;
+		System.out.println("Created players : " + Player.getCounter());
+		
+		Player p1 = new Player();
+		Player p2 = new Player("Alice");
+		Player p3 = new Player("Bob");
+		Player p4 = new Player("BOB");
+		Player p5 = p3;
 		
 		System.out.println(p1);
 		System.out.println(p2);
@@ -51,7 +54,7 @@ public class Main {
 		
 		System.out.println();
 		System.out.println("Created players : " + Player.getCounter());
-		p3 = null;		
+		p4 = null;		
 		System.out.println("Created players : " + Player.getCounter());
 	}
 }
