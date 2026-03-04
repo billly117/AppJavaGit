@@ -14,6 +14,7 @@ public class Player {
 	/**Score du joueur (initialement nul et toujours positif)*/
 	private int score = 0;
 	/**Nombre de joueurs créés*/
+	private static int counter = 0;
 	
 	
 	/**
@@ -22,12 +23,19 @@ public class Player {
 	 */
 	public Player(String name) {
 		this.name = name;
+		counter ++;
 	}
+	
+	
 	
 	/**
 	 * Retourne le nombre de joueurs créés
 	 * @return  le nombre de joueurs créés
 	 */
+	
+	public static int getCounter() {
+		return counter;
+	}
 
 	
 	/**
@@ -82,7 +90,7 @@ public class Player {
 			this.score = 0;
 		}
 		
-	}
+	} 
 	
 	
 }

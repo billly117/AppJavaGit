@@ -50,7 +50,8 @@ public class Main {
 		System.out.println("Player Bob == reference to Bob : " + (p2 == p4));
 		
 		System.out.println();
-		
-		
+		System.out.println("Created players : " + Player.getCounter());
+		p3 = null;		
+		System.out.println("Created players : " + Player.getCounter());
 	}
 }
