@@ -54,7 +54,7 @@ public class Main {
 		
 		System.out.println();
 		System.out.println("Created players : " + Player.getCounter());
-		p4 = null;		
+		p4 = null;
 		System.out.println("Created players : " + Player.getCounter());
 	}
 }
