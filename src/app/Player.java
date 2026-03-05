@@ -15,6 +15,8 @@ public class Player {
 	private int score = 0;
 	/**Nombre de joueurs créés*/
 	private static int counter = 0;
+	private int posX = -1;
+	private int posY = -1;
 	
 	
 	/**
@@ -61,6 +63,22 @@ public class Player {
 	 */
 	public int getScore() {
 		return this.score;
+	}
+	
+	public int getPosX() {
+		return this.posX;
+	}
+	
+	public int getposY() {
+		return this.posY;
+	}
+	
+	public void setPosX(int x) {
+		this.posX = x;
+	}
+	
+	public void setPosY(int y) {
+		this.posY = y;
 	}
 	
 	/**

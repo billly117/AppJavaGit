@@ -102,9 +102,9 @@ public class Main {
 			    {'#','#','#','#','#','#','#','#','#','#'}
 			};
 		
-		Level level1 = new Level(grid1);
-		Level level2 = new Level(grid2);
-		Level level3 = new Level(grid3);
+		Level level1 = new Level(grid1,p1,1,1);
+		Level level2 = new Level(grid2,p2,1,1);
+		Level level3 = new Level(grid3,p3,1,1);
 		
 		System.out.println("Level 1 :");
 		level1.display();
