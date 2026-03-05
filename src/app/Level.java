@@ -6,6 +6,10 @@ public class Level {
 	private final Player player;
 	
 	public Level(char[][] grid, Player player, int x, int y) {
+		
+		if(player==null) {
+			throw new IllegalArgumentException("A level must have a player");
+		}
 		this.grid = grid;
 		this.player = player;
 		
@@ -19,6 +23,7 @@ public class Level {
 	}
 	
 	public void display() {
+		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +").");
 		for(int i=0; i<grid.length; i++) {
 			for(int j=0; j<grid[0].length;j++) {
 				if(i == player.getPosX() && j == player.getposY()) {
