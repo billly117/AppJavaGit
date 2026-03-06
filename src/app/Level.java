@@ -13,13 +13,17 @@ public class Level {
 		this.grid = grid;
 		this.player = player;
 		
-		if(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y] == '#') {
+		if(!(validPosition(x,y))) {
 			throw new IllegalArgumentException("Impossible placement");
 		}else {
 			player.setPosX(x);
 			player.setPosY(y);
 		}
 		
+	}
+	
+	public boolean validPosition(int x,int y) {
+		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y] == '#'));
 	}
 	
 	public void display() {
@@ -33,6 +37,31 @@ public class Level {
 				}				
 			}
 			System.out.println();
+		}
+	}
+	
+	public void playerMove(Direction dir) {
+		int x = player.getPosX();
+		int y = player.getposY();
+		
+		switch(dir) {
+			case UP: 
+				x -= 1;
+				break;
+			case LEFT:
+				y -= 1;
+				break;
+			case DOWN:
+				x += 1;
+				break;
+			case RIGHT:
+				y += 1;
+				break;
+		}
+		
+		if(validPosition(x,y)) {
+			player.setPosX(x);
+			player.setPosY(y);
 		}
 	}
 
