@@ -124,8 +124,14 @@ public class Main {
 		//Game game1 = new Game(level1);
 		//game1.gameLoop();
 		
-		Level level4 = new Level("levels/grid1.txt",p1,1,1);
-		Game game2 = new Game(level4);
-		game2.gameLoop();
+		try {
+	        Level level4 = new Level("levels/grid1.txt", p1, 1, 1);
+	        Game game2 = new Game(level4);
+			game2.gameLoop();
+	    } catch (IOException e) {
+	        System.out.println("Error : file not found");
+	        e.printStackTrace();
+	    }
+		
 	}
 }
