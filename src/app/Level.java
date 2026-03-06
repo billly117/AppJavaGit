@@ -1,9 +1,46 @@
 package app;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
 public class Level {
 	
 	private char[][] grid;
 	private final Player player;
+	
+	public Level(String filename, Player player, int x, int y) throws IOException{
+		List<String> rows;
+		
+		try {
+			rows = Files.readAllLines(Paths.get(filename));
+		}catch(Exception e) {
+			System.err.println("Error : fichier \"" + filename + "\" not found.");
+	        throw e;
+		}
+		
+		grid = new char[rows.size()][rows.get(0).length()];
+		
+		for(int i = 0; i<rows.size(); i++) {
+			for(int j = 0; j<rows.get(i).length(); j++) {
+				grid[i][j] = rows.get(i).charAt(j);
+			}
+		}
+		
+		if(player == null) {
+			throw new IllegalArgumentException("A level must have a player");
+		}
+		this.player = player;
+		
+		if(!(validPosition(x,y))) {
+			throw new IllegalArgumentException("Impossible placement");
+		}else {
+			player.setPosX(x);
+			player.setPosY(y);
+		}
+	}
+
 	
 	public Level(char[][] grid, Player player, int x, int y) {
 		

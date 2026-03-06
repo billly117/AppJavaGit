@@ -1,7 +1,9 @@
 package app;
 
+import java.io.IOException;
+
 public class Main {
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException{
 		
 		System.out.println("World 1 tests : \n");
 		
@@ -119,7 +121,11 @@ public class Main {
 		System.out.println("Level 3 :");
 		level3.display();
 		
-		Game game1 = new Game(level1);
-		game1.gameLoop();
+		//Game game1 = new Game(level1);
+		//game1.gameLoop();
+		
+		Level level4 = new Level("levels/grid1.txt",p1,1,1);
+		Game game2 = new Game(level4);
+		game2.gameLoop();
 	}
 }
