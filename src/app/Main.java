@@ -13,7 +13,7 @@ public class Main {
 		Player p2 = new Player("Alice");
 		Player p3 = new Player("Bob");
 		Player p4 = new Player("BOB");
-		Player p5 = p3;
+		//Player p5 = p3;
 		
 		System.out.println(p1);
 		System.out.println(p2);
@@ -124,10 +124,28 @@ public class Main {
 		//Game game1 = new Game(level1);
 		//game1.gameLoop();
 		
-		try {
+		/*try {
 	        Level level4 = new Level("levels/grid1.txt", p1, 1, 1);
 	        Game game2 = new Game(level4);
 			game2.gameLoop();
+	    } catch (IOException e) {
+	        System.out.println("Error : file not found");
+	        e.printStackTrace();
+	    }*/
+		
+		if(args.length == 0) {
+			System.out.println("Usage : java -jar game.jar <fichier_niveau>");
+	        return;
+		}
+		
+		String filename = args[0];
+		
+		Player p6 = new Player("JUL");
+		
+		try {
+	        Level level5 = new Level(filename, p6, 1, 1);
+	        Game game3 = new Game(level5);
+			game3.gameLoop();
 	    } catch (IOException e) {
 	        System.out.println("Error : file not found");
 	        e.printStackTrace();

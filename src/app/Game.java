@@ -41,7 +41,6 @@ public class Game {
 			}else {
 				level.playerMove(dir);
 			}
-			
 		}
 		
 	}
