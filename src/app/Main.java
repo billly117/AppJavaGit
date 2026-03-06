@@ -118,10 +118,8 @@ public class Main {
 		
 		System.out.println("Level 3 :");
 		level3.display();
-		level3.playerMove(Direction.UP);
-		level3.playerMove(Direction.RIGHT);
-		level3.playerMove(Direction.RIGHT);
-		level3.playerMove(Direction.DOWN);
-		level3.display();
+		
+		Game game1 = new Game(level1);
+		game1.gameLoop();
 	}
 }

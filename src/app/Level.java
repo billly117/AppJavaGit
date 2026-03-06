@@ -63,6 +63,10 @@ public class Level {
 			player.setPosX(x);
 			player.setPosY(y);
 		}
+		
+		display();
 	}
+	
+	
 
 }
