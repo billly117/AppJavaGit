@@ -2,8 +2,28 @@ package app;
 
 import java.io.IOException;
 
+/**
+ * Classe principale de l'application.
+ * Contient le point d'entrée de l'application. * 
+ * @author bilal
+ * @version 1.0
+ */
+
 public class Main {
-	public static void main(String[] args) throws IOException{
+	
+	 /**
+     * Constructeur par défaut de la classe Main.
+     */
+	
+	public Main() {
+		
+	}
+	
+	/**
+     * Point d'entrée de l'application.
+     * @param args arguments passés à l'application (non utilisés ici)
+     */
+	public static void main(String[] args){
 		
 		System.out.println("World 1 tests : \n");
 		
