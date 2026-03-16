@@ -42,7 +42,7 @@ public class Game {
 	public void gameLoop() {
 		Scanner sc = new Scanner(System.in);
 		
-		while(true) {
+		while(level.getNbCoins() > 0) {
 			
 			System.out.println("\n Moving (ZQSD)");
 			String input = sc.nextLine().toUpperCase();
@@ -54,6 +54,8 @@ public class Game {
 				level.playerMove(dir);
 			}
 		}
+		
+		System.out.println("LEVEL COMPLETED");
 		
 	}
 	

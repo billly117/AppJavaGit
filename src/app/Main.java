@@ -128,6 +128,7 @@ public class Main {
 		Level level2 = new Level(grid2,p2,1,1);
 		Level level3 = new Level(grid3,p3,1,1);
 		
+		/*
 		System.out.println("Level 1 :");
 		level1.display();
 		
@@ -140,6 +141,7 @@ public class Main {
 		
 		System.out.println("Level 3 :");
 		level3.display();
+		*/
 		
 		//Game game1 = new Game(level1);
 		//game1.gameLoop();

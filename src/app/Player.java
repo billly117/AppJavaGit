@@ -104,9 +104,9 @@ public class Player {
 	@Override
 	public String toString() {
 		if(this.score>1) {
-			return name + " : " + score + " pts.";
+			return name + " : " + score + " pts. Position : (" + posX + "," + posY + ").";
 		}
-		return name + " : " + score + " pt";
+		return name + " : " + score + " pt. Position : (" + posX + "," + posY + ").";
 		
 	}
 	/**

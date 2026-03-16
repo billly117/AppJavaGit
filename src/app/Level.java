@@ -16,6 +16,7 @@ public class Level {
 	
 	private char[][] grid;
 	private final Player player;
+	private int nbCoins = 0;
 	
 	/**
 	 * Initialise un niveau à partir d'un fichier texte pour la gille, un joueur et sa position initiale
@@ -40,6 +41,9 @@ public class Level {
 		for(int i = 0; i<rows.size(); i++) {
 			for(int j = 0; j<rows.get(i).length(); j++) {
 				grid[i][j] = rows.get(i).charAt(j);
+				if(grid[i][j] == '.') {
+					nbCoins ++;
+				}
 			}
 		}
 		
@@ -81,6 +85,14 @@ public class Level {
 	}
 	
 	/**
+	 * Retourne le nombre de pièce dans le niveau
+	 * @return lle nombre de pièce dans le niveau
+	 */
+	public int getNbCoins(){
+		return this.nbCoins;
+	}
+	
+	/**
 	 * Retourne la grille du niveau
 	 * @return la grille du niveau
 	 */
@@ -102,10 +114,10 @@ public class Level {
 	 * Affiche la grille dans la console
 	 */
 	public void display() {
-		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +").");
+		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins);
 		for(int i=0; i<grid.length; i++) {
 			for(int j=0; j<grid[0].length;j++) {
-				if(i == player.getPosX() && j == player.getposY()) {
+				if(i == player.getPosX() && j == player.getposY()) { 
 					System.out.print('1');
 				}else {
 					System.out.print(grid[i][j]);
@@ -141,6 +153,12 @@ public class Level {
 		if(validPosition(x,y)) {
 			player.setPosX(x);
 			player.setPosY(y);
+			
+			if(grid[player.getPosX()][player.getposY()] == '.') {
+				player.updateScore(10);
+				grid[player.getPosX()][player.getposY()] = ' ';
+				nbCoins -= 1;
+			}
 		}
 		
 		display();
