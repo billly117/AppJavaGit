@@ -40,8 +40,7 @@ public class Player {
 	 * @param name nom du joueur
 	 */
 	public Player() {
-		counter ++;
-		this.name = "Joueur" + counter;
+		this("Player " + (counter + 1));
 	}
 	
 	/**
@@ -163,10 +162,17 @@ public class Player {
 	 */	
 	@Override
 	public String toString() {
+		String str = name + " : " + score + " pt";
 		if(this.score>1) {
+<<<<<<< HEAD
 			return name + " : " + score + " pts. Position : (" + posX + "," + posY + ").";
 		}
 		return name + " : " + score + " pt. Position : (" + posX + "," + posY + ").";
+=======
+			return str + "s";
+		}
+		return str;
+>>>>>>> e2d39d7 (Correction Monde 1 (après envoi2 au prof) : ducplication de code))
 		
 	}
 	/**
