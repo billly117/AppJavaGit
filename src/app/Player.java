@@ -35,8 +35,7 @@ public class Player {
 	 * @param name nom du joueur
 	 */
 	public Player() {
-		counter ++;
-		this.name = "Joueur" + counter;
+		this("Player " + (counter + 1));
 	}
 	
 	
@@ -103,10 +102,11 @@ public class Player {
 	 */	
 	@Override
 	public String toString() {
+		String str = name + " : " + score + " pt";
 		if(this.score>1) {
-			return name + " : " + score + " pts.";
+			return str + "s";
 		}
-		return name + " : " + score + " pt";
+		return str;
 		
 	}
 	/**
