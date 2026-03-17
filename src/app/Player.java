@@ -164,12 +164,10 @@ public class Player {
 	public String toString() {
 		String str = name + " : " + score + " pt";
 		if(this.score>1) {
-
 			return str + "s";
 		
 		}
-			return str;
-
+		return str;
 		
 	}
 	/**
