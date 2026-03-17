@@ -12,6 +12,10 @@ public class Player {
 	/**Nom du joueur (non modifiable)*/
 	private final String name;
 	/**Score du joueur (initialement nul et toujours positif)*/
+	/**Position X initale du joueur	 */
+	private int posXinit = -1;
+	/**Position Y initale du joueur	 */
+	private int posYinit = -1;
 	private int score = 0;
 	/**Nombre de joueurs créés*/
 	private static int counter = 0;
@@ -19,7 +23,8 @@ public class Player {
 	private int posX = -1;
 	/**Position Y du joueur	 */
 	private int posY = -1;
-	
+	/**Nombre de vies */
+	private int nbLives = 5;
 	
 	/**
 	 * Initialise un joueur dont le score est nul.
@@ -39,7 +44,30 @@ public class Player {
 		this.name = "Joueur" + counter;
 	}
 	
+	/**
+	 * Retourne la position X initale du joueur
+	 * @return  la position X initiale du joueur
+	 */ 
+	public int getPosXInit() {
+		return this.posXinit;
+	}
 	
+	/**
+	 * Retourne la position Y initale du joueur
+	 * @return  la position Y initiale du joueur
+	 */ 
+	public int getPosYInit() {
+		return this.posYinit;
+	}
+	
+	/**
+	 * Retourne le nombre de vies du joueurs
+	 * @return  le nombre de vies du joueurs
+	 */
+	
+	public int getNbLives() {
+		return this.nbLives;
+	}
 	
 	/**
 	 * Retourne le nombre de joueurs créés
@@ -95,6 +123,38 @@ public class Player {
 	 */
 	public void setPosY(int y) {
 		this.posY = y;
+	}
+	
+	/**
+	 * Met à jour la position X initiale du joueur
+	 * @param x position X initiale
+	 */
+	public void setPosXInit(int x) {
+		this.posXinit = x;
+	}
+	
+	/**
+	 * Met à jour la position Y initiale du joueur
+	 * @param y position Y initiale
+	 */
+	public void setPosYInit(int y) {
+		this.posYinit = y;
+	}
+	
+	
+	/**
+	 * Met à jour le nombre de vies
+	 * @param n Nouveau nombre de vies
+	 */
+	public void setNbLives(int n) {
+		this.nbLives = n;
+	}
+	
+	/**
+	 * Retire n vies au joueur
+	 */
+	public void looseLife(int n) {
+		this.nbLives -= n;
 	}
 	
 	/**

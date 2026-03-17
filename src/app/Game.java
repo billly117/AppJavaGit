@@ -5,13 +5,19 @@ import java.util.Scanner;
 public class Game {
 
 	private Level level;
+	private String filename;
+	private int startX;
+	private int startY;
 	
 	/**
 	 * Initialise une partie avec un niveau
 	 * @param level niveau de la partie
 	 */
-	public Game(Level level) {
+	public Game(Level level, String filename, int startX, int startY) {
 		this.level = level;
+		this.filename = filename;
+		this.startX = startX;
+		this.startY = startY;
 	}
 	
 	/**
@@ -36,13 +42,23 @@ public class Game {
 		}
 	}
 	
+	public void reset() {
+		try {
+	        Player newPlayer = new Player(level.getPlayer().getName());
+	        this.level = new Level(this.filename, newPlayer, this.startX, this.startY);
+	    } catch (Exception e) {
+	        System.err.println("Reboot Error");
+	    }
+	}
+	
 	/**
 	 * Boucle de jeu
 	 */
 	public void gameLoop() {
 		Scanner sc = new Scanner(System.in);
+		level.display();
 		
-		while(level.getNbCoins() > 0) {
+		while(level.getNbCoins() > 0 && level.getPlayer().getNbLives() > 0) {
 			
 			System.out.println("\n Moving (ZQSD)");
 			String input = sc.nextLine().toUpperCase();
@@ -55,7 +71,23 @@ public class Game {
 			}
 		}
 		
-		System.out.println("LEVEL COMPLETED");
+		if(!(level.getNbCoins() > 0)) {
+			System.out.println("LEVEL COMPLETED");
+		}
+		
+		if(level.getPlayer().getNbLives() <= 0) {
+		    System.out.println("GAME OVER");
+		    System.out.println("Restart level ? (Y/N)");
+
+		    String choice = sc.nextLine().toUpperCase();
+
+		    if(choice.equals("Y")) {
+		        reset();
+		        gameLoop();
+		    } else {
+		        System.out.println("Goodbye");
+		    }
+		}
 		
 	}
 	

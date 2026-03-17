@@ -57,6 +57,9 @@ public class Level {
 		}else {
 			player.setPosX(x);
 			player.setPosY(y);
+			
+			player.setPosXInit(x);
+			player.setPosYInit(y);
 		}
 	}
 
@@ -101,6 +104,14 @@ public class Level {
 	}
 	
 	/**
+	 * Retourne le joueur du niveau
+	 * @return le joueur du niveau
+	 */
+	public Player getPlayer() {
+		return this.player;
+	}
+	
+	/**
 	 * Retourne un booléen si la position est valide (dans la grille et espace vide)
 	 * @param x position x
 	 * @param y position y
@@ -114,7 +125,7 @@ public class Level {
 	 * Affiche la grille dans la console
 	 */
 	public void display() {
-		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins);
+		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins + ". Lives : " + player.getNbLives());
 		for(int i=0; i<grid.length; i++) {
 			for(int j=0; j<grid[0].length;j++) {
 				if(i == player.getPosX() && j == player.getposY()) { 
@@ -158,6 +169,13 @@ public class Level {
 				player.updateScore(10);
 				grid[player.getPosX()][player.getposY()] = ' ';
 				nbCoins -= 1;
+			}
+			
+			if(grid[player.getPosX()][player.getposY()] == '*') {
+				player.looseLife(2);
+				grid[player.getPosX()][player.getposY()] = ' ';
+				player.setPosX(player.getPosXInit());
+				player.setPosY(player.getPosYInit());
 			}
 		}
 		

@@ -166,7 +166,7 @@ public class Main {
 		
 		try {
 	        Level level5 = new Level(filename, p6, 1, 1);
-	        Game game3 = new Game(level5);
+	        Game game3 = new Game(level5,filename,1,1);
 			game3.gameLoop();
 	    } catch (IOException e) {
 	        System.out.println("Error : file not found");
