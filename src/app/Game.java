@@ -113,5 +113,9 @@ public class Game {
 		}return false;
 	}
 	
+	public boolean isGameOver() {
+		return level.getPlayer().getNbLives() <= 0;
+	}
+	
 	
 }
