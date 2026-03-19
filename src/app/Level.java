@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Level {
 	
-	private char[][] grid;
+	private Cell[][] grid;
 	private final Player player;
 	private int nbCoins = 0;
 	
@@ -36,14 +36,28 @@ public class Level {
 	        throw e;
 		}
 		
-		grid = new char[rows.size()][rows.get(0).length()];
+		grid = new Cell[rows.size()][rows.get(0).length()];
 		
 		for(int i = 0; i<rows.size(); i++) {
-			for(int j = 0; j<rows.get(i).length(); j++) {
-				grid[i][j] = rows.get(i).charAt(j);
-				if(grid[i][j] == '.') {
+			for(int j = 0; j<rows.get(i).length(); j++){
+				char c = rows.get(i).charAt(j);
+				boolean hasCoin = false;
+				CellType type = CellType.EMPTY;
+				
+				switch(c) {
+				case '#':
+					type = CellType.WALL;
+					break;
+					
+				case '*':
+					type = CellType.TRAPPED;
+					break;
+				case '.':
+					hasCoin = true;
 					nbCoins ++;
 				}
+				
+				grid[i][j] = new Cell(i,j,hasCoin,type);
 			}
 		}
 		
@@ -62,30 +76,6 @@ public class Level {
 			player.setPosYInit(y);
 		}
 	}
-
-	/**
-	 * Initialise un niveau à partir d'une matrice de caractère pour la gille, un joueur et sa position initiale
-	 * @param grid matrice de caractère pour la grille
-	 * @param player joueur
-	 * @param x position x initiale du joueur
-	 * @param y position y initiale du joueur
-	 */
-	public Level(char[][] grid, Player player, int x, int y) {
-		
-		if(player==null) {
-			throw new IllegalArgumentException("A level must have a player");
-		}
-		this.grid = grid;
-		this.player = player;
-		
-		if(!(validPosition(x,y))) {
-			throw new IllegalArgumentException("Impossible placement");
-		}else {
-			player.setPosX(x);
-			player.setPosY(y);
-		}
-		
-	}
 	
 	/**
 	 * Retourne le nombre de pièce dans le niveau
@@ -95,13 +85,6 @@ public class Level {
 		return this.nbCoins;
 	}
 	
-	/**
-	 * Retourne la grille du niveau
-	 * @return la grille du niveau
-	 */
-	public char[][] getGrid(){
-		return this.grid;
-	}
 	
 	/**
 	 * Retourne le joueur du niveau
@@ -118,7 +101,7 @@ public class Level {
 	 * @return un booléen si la position est valide (dans la grille et espace vide)
 	 */
 	public boolean validPosition(int x,int y) {
-		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y] == '#'));
+		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y].getType() == CellType.WALL));
 	}
 	
 	/**
@@ -127,12 +110,28 @@ public class Level {
 	public void display() {
 		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins + ". Lives : " + player.getNbLives());
 		for(int i=0; i<grid.length; i++) {
-			for(int j=0; j<grid[0].length;j++) {
-				if(i == player.getPosX() && j == player.getposY()) { 
-					System.out.print('1');
-				}else {
-					System.out.print(grid[i][j]);
-				}				
+			for(int j=0; j<grid[0].length;j++) {				
+				
+				if(i == player.getPosX() && j == player.getposY()) {
+		            System.out.print('1');
+		        }
+		        else {
+
+		            Cell cell = grid[i][j];
+
+		            if(cell.getType() == CellType.WALL) {
+		                System.out.print('#');
+		            }
+		            else if(cell.getType() == CellType.TRAPPED) {
+		                System.out.print('*');
+		            }
+		            else if(cell.getHasCoin()) {
+		                System.out.print('.');
+		            }
+		            else {
+		                System.out.print(' ');
+		            }
+		        }
 			}
 			System.out.println();
 		}
@@ -165,15 +164,15 @@ public class Level {
 			player.setPosX(x);
 			player.setPosY(y);
 			
-			if(grid[player.getPosX()][player.getposY()] == '.') {
+			if(grid[player.getPosX()][player.getposY()].getHasCoin()) {
 				player.updateScore(10);
-				grid[player.getPosX()][player.getposY()] = ' ';
+				grid[player.getPosX()][player.getposY()].setHasCoin(false);;
 				nbCoins -= 1;
 			}
 			
-			if(grid[player.getPosX()][player.getposY()] == '*') {
+			if(grid[player.getPosX()][player.getposY()].getType() == CellType.TRAPPED) {
 				player.looseLife(2);
-				grid[player.getPosX()][player.getposY()] = ' ';
+				grid[player.getPosX()][player.getposY()].setType(CellType.EMPTY);
 				player.setPosX(player.getPosXInit());
 				player.setPosY(player.getPosYInit());
 			}
@@ -199,12 +198,14 @@ public class Level {
 	 * @return un booléen vrai si deux niveaux avec la même grille faux sinon
 	 */	
 	
+	/*
 	@Override
 	public boolean equals(Object obj) {
 		if(obj instanceof Level && this.grid == ((Level) obj).getGrid()) {
 			return true;
 		}return false;
 	}
+	*/
 	
 
 }
