@@ -151,6 +151,7 @@ public class Level {
 		int x = player.getPosX();
 		int y = player.getposY();
 		
+		
 		switch(dir) {
 			case UP: 
 				x -= 1;
@@ -165,6 +166,9 @@ public class Level {
 				y += 1;
 				break;
 		}
+		
+		x = (x + grid.length) % grid.length;
+		y = (y + grid[0].length) % grid[0].length;
 		
 		if(validPosition(x,y)) {
 			player.setPosX(x);
