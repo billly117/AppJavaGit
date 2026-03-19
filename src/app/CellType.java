@@ -3,5 +3,6 @@ package app;
 public enum CellType {
 	EMPTY,
 	WALL,
-	TRAPPED
+	TRAPPED,
+	LOCKED
 }

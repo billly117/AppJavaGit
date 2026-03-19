@@ -52,6 +52,9 @@ public class Level {
 				case '*':
 					type = CellType.TRAPPED;
 					break;
+				case 'D':
+					type = CellType.LOCKED;
+					break;
 				case '.':
 					hasCoin = true;
 					nbCoins ++;
@@ -101,7 +104,7 @@ public class Level {
 	 * @return un booléen si la position est valide (dans la grille et espace vide)
 	 */
 	public boolean validPosition(int x,int y) {
-		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y].getType() == CellType.WALL));
+		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || !grid[x][y].getThroughable()));
 	}
 	
 	/**
@@ -124,6 +127,9 @@ public class Level {
 		            }
 		            else if(cell.getType() == CellType.TRAPPED) {
 		                System.out.print('*');
+		            }
+		            else if(cell.getType() == CellType.LOCKED) {
+		            	System.out.print('D');
 		            }
 		            else if(cell.getHasCoin()) {
 		                System.out.print('.');
