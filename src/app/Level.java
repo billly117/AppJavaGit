@@ -14,8 +14,11 @@ import java.util.List;
 
 public class Level {
 	
+	/*Grille de cellules*/
 	private Cell[][] grid;
+	/*Joueur associé au niveau*/
 	private final Player player;
+	/*Nombre de pièces présentes dans le niveau*/
 	private int nbCoins = 0;
 	
 	/**
@@ -95,6 +98,15 @@ public class Level {
 	 */
 	public Player getPlayer() {
 		return this.player;
+	}
+	
+	
+	/**
+	 * Retourne la grille de cellules
+	 * @return la grille de cellules
+	 */
+	public Cell[][] getGrid() {
+	    return grid;
 	}
 	
 	/**
@@ -208,14 +220,36 @@ public class Level {
 	 * @return un booléen vrai si deux niveaux avec la même grille faux sinon
 	 */	
 	
-	/*
+	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Level && this.grid == ((Level) obj).getGrid()) {
-			return true;
-		}return false;
+		
+		if(this == obj) {
+	        return true;
+	    }
+
+	    if(!(obj instanceof Level)) {
+	        return false;
+	    }
+
+	    Level other = (Level) obj;
+
+	    if(grid.length != other.grid.length || grid[0].length != other.grid[0].length) {
+	        return false;
+	    }
+
+	    for(int i = 0; i < grid.length; i++) {
+	        for(int j = 0; j < grid[0].length; j++) {
+
+	            if(!grid[i][j].equals(other.grid[i][j])) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    return true;
 	}
-	*/
+	
 	
 
 }

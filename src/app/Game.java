@@ -4,9 +4,13 @@ import java.util.Scanner;
 
 public class Game {
 
+	/*Niveau de la partie*/
 	private Level level;
+	/*Nom du fichier associé au niveau*/
 	private String filename;
+	/*Position X de départ*/
 	private int startX;
+	/*Position Y de départ*/
 	private int startY;
 	
 	/**
@@ -42,6 +46,9 @@ public class Game {
 		}
 	}
 	
+	/**
+	 * Fonction pour relancer une partie après un GAME OVER
+	 */
 	public void reset() {
 		try {
 	        Player newPlayer = new Player(level.getPlayer().getName());
@@ -113,6 +120,10 @@ public class Game {
 		}return false;
 	}
 	
+	/**
+	 * Fonction pour déterminer si il y a GAME OVER
+	 * @return true si le nombre de vies du joueur est négatif
+	 */
 	public boolean isGameOver() {
 		return level.getPlayer().getNbLives() <= 0;
 	}
