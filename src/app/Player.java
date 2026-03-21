@@ -8,30 +8,22 @@ package app;
  * @version 1.0
  */
 
-public class Player {
-	/**Nom du joueur (non modifiable)*/
-	private final String name;
-	/**Score du joueur (initialement nul et toujours positif)*/
-	/**Position X initale du joueur	 */
-	private int posXinit = -1;
-	/**Position Y initale du joueur	 */
-	private int posYinit = -1;
+public class Player extends Character{
+	/**Score initalement nul*/
 	private int score = 0;
+	/**Position X initale du joueur	 */
+	private int posXinit;
+	/**Position Y initale du joueur	 */
+	private int posYinit;
 	/**Nombre de joueurs créés*/
 	private static int counter = 0;
-	/**Position X du joueur	 */
-	private int posX = -1;
-	/**Position Y du joueur	 */
-	private int posY = -1;
-	/**Nombre de vies */
-	private int nbLives = 5;
 	
 	/**
 	 * Initialise un joueur dont le score est nul.
 	 * @param name nom du joueur
 	 */
 	public Player(String name) {
-		this.name = name;
+		super(name,-1,-1,5);
 		counter ++;
 	}
 	
@@ -40,7 +32,7 @@ public class Player {
 	 * @param name nom du joueur
 	 */
 	public Player() {
-		this("Player " + (counter + 1));
+		super("Player " + (counter + 1),-1,-1,5);
 	}
 	
 	/**
@@ -58,15 +50,7 @@ public class Player {
 	public int getPosYInit() {
 		return this.posYinit;
 	}
-	
-	/**
-	 * Retourne le nombre de vies du joueurs
-	 * @return  le nombre de vies du joueurs
-	 */
-	
-	public int getNbLives() {
-		return this.nbLives;
-	}
+
 	
 	/**
 	 * Retourne le nombre de joueurs créés
@@ -76,15 +60,6 @@ public class Player {
 	public static int getCounter() {
 		return counter;
 	}
-
-	
-	/**
-	 * Retourne le nom du joueur
-	 * @return  le nom du joueur
-	 */
-	public String getName() {
-		return this.name;
-	}
 	
 	/**
 	 * Retourne le score du joueur
@@ -92,36 +67,6 @@ public class Player {
 	 */
 	public int getScore() {
 		return this.score;
-	}
-	
-	/**
-	 * Retourne la position X du joueur
-	 * @return  la position X du joueur
-	 */
-	public int getPosX() {
-		return this.posX;
-	}
-	
-	/**
-	 * Retourne la position Y du joueur
-	 * @return  la position Y du joueur
-	 */
-	public int getposY() {
-		return this.posY;
-	}
-	
-	/**
-	 * Met à jour la position X du joueur
-	 */
-	public void setPosX(int x) {
-		this.posX = x;
-	}
-	
-	/**
-	 * Met à jour la position Y du joueur
-	 */
-	public void setPosY(int y) {
-		this.posY = y;
 	}
 	
 	/**
@@ -150,11 +95,18 @@ public class Player {
 	}
 	
 	/**
-	 * Retire n vies au joueur
+	 * Ajoute ou retire des points au score du  joueur.
+	 * Si le score devient négatif, il est ramené à 0
+	 * @param n nombre de points à ajouter (peut être négatif)
 	 */
-	public void looseLife(int n) {
-		this.nbLives -= n;
-	}
+	public void updateScore(int n) {
+		if(this.score + n >= 0) {
+			this.score += n;
+		}else {
+			this.score = 0;
+		}
+		
+	} 
 	
 	/**
 	 * Representation textuelle de l'objet Player
@@ -182,19 +134,12 @@ public class Player {
 		}return false;
 	}
 	
-	/**
-	 * Ajoute ou retire des points au score du  joueur.
-	 * Si le score devient négatif, il est ramené à 0
-	 * @param n nombre de points à ajouter (peut être négatif)
-	 */
-	public void updateScore(int n) {
-		if(this.score + n >= 0) {
-			this.score += n;
-		}else {
-			this.score = 0;
-		}
+	@Override
+	public void move(Level level) {
 		
-	} 
+	}
+	
+	
 	
 	
 }

@@ -3,6 +3,7 @@ package app;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,6 +21,8 @@ public class Level {
 	private final Player player;
 	/*Nombre de pièces présentes dans le niveau*/
 	private int nbCoins = 0;
+	/*Liste des ennemis*/
+	private List<Enemy> enemies = new ArrayList<>();
 	
 	/**
 	 * Initialise un niveau à partir d'un fichier texte pour la gille, un joueur et sa position initiale
@@ -61,6 +64,10 @@ public class Level {
 				case '.':
 					hasCoin = true;
 					nbCoins ++;
+					break;
+				case 'R':
+					enemies.add(new Enemy(i,j,1));
+					break;
 				}
 				
 				grid[i][j] = new Cell(i,j,hasCoin,type);
@@ -83,6 +90,9 @@ public class Level {
 		}
 	}
 	
+	public List<Enemy> getEnemies(){
+		return enemies;
+	}
 	/**
 	 * Retourne le nombre de pièce dans le niveau
 	 * @return lle nombre de pièce dans le niveau
@@ -119,17 +129,30 @@ public class Level {
 		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || !grid[x][y].getThroughable()));
 	}
 	
+	public boolean enemyAt(int x, int y) {
+		for(Enemy e : enemies) {
+			if(e.getPosX() == x && e.getPosY() == y) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	/**
 	 * Affiche la grille dans la console
 	 */
 	public void display() {
-		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins + ". Lives : " + player.getNbLives());
+		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getPosY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins + ". Lives : " + player.getNbLives());
 		for(int i=0; i<grid.length; i++) {
 			for(int j=0; j<grid[0].length;j++) {				
 				
-				if(i == player.getPosX() && j == player.getposY()) {
+				if(i == player.getPosX() && j == player.getPosY()) {
 		            System.out.print('1');
 		        }
+				
+				else if(enemyAt(i,j)) {
+					System.out.print('R');
+				}
 		        else {
 
 		            Cell cell = grid[i][j];
@@ -155,13 +178,19 @@ public class Level {
 		}
 	}
 	
+	private void moveEnemies() {
+		for(Enemy enemy : enemies) {
+			enemy.move(this);
+		}
+	}
+	
 	/**
 	 * Déplace le joueur dans la grille
 	 * @param dir Direction du déplacement du joueur
 	 */
 	public void playerMove(Direction dir) {
 		int x = player.getPosX();
-		int y = player.getposY();
+		int y = player.getPosY();
 		
 		
 		switch(dir) {
@@ -186,20 +215,21 @@ public class Level {
 			player.setPosX(x);
 			player.setPosY(y);
 			
-			if(grid[player.getPosX()][player.getposY()].getHasCoin()) {
+			if(grid[player.getPosX()][player.getPosY()].getHasCoin()) {
 				player.updateScore(10);
-				grid[player.getPosX()][player.getposY()].setHasCoin(false);;
+				grid[player.getPosX()][player.getPosY()].setHasCoin(false);;
 				nbCoins -= 1;
 			}
 			
-			if(grid[player.getPosX()][player.getposY()].getType() == CellType.TRAPPED) {
+			if(grid[player.getPosX()][player.getPosY()].getType() == CellType.TRAPPED) {
 				player.looseLife(2);
-				grid[player.getPosX()][player.getposY()].setType(CellType.EMPTY);
+				grid[player.getPosX()][player.getPosY()].setType(CellType.EMPTY);
 				player.setPosX(player.getPosXInit());
 				player.setPosY(player.getPosYInit());
 			}
 		}
 		
+		moveEnemies();
 		display();
 	}
 	
