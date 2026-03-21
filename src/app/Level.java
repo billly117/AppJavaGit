@@ -14,8 +14,12 @@ import java.util.List;
 
 public class Level {
 	
-	private char[][] grid;
+	/*Grille de cellules*/
+	private Cell[][] grid;
+	/*Joueur associé au niveau*/
 	private final Player player;
+	/*Nombre de pièces présentes dans le niveau*/
+	private int nbCoins = 0;
 	
 	/**
 	 * Initialise un niveau à partir d'un fichier texte pour la gille, un joueur et sa position initiale
@@ -35,11 +39,31 @@ public class Level {
 	        throw e;
 		}
 		
-		grid = new char[rows.size()][rows.get(0).length()];
+		grid = new Cell[rows.size()][rows.get(0).length()];
 		
 		for(int i = 0; i<rows.size(); i++) {
-			for(int j = 0; j<rows.get(i).length(); j++) {
-				grid[i][j] = rows.get(i).charAt(j);
+			for(int j = 0; j<rows.get(i).length(); j++){
+				char c = rows.get(i).charAt(j);
+				boolean hasCoin = false;
+				CellType type = CellType.EMPTY;
+				
+				switch(c) {
+				case '#':
+					type = CellType.WALL;
+					break;
+					
+				case '*':
+					type = CellType.TRAPPED;
+					break;
+				case 'D':
+					type = CellType.LOCKED;
+					break;
+				case '.':
+					hasCoin = true;
+					nbCoins ++;
+				}
+				
+				grid[i][j] = new Cell(i,j,hasCoin,type);
 			}
 		}
 		
@@ -53,39 +77,36 @@ public class Level {
 		}else {
 			player.setPosX(x);
 			player.setPosY(y);
+			
+			player.setPosXInit(x);
+			player.setPosYInit(y);
 		}
-	}
-
-	/**
-	 * Initialise un niveau à partir d'une matrice de caractère pour la gille, un joueur et sa position initiale
-	 * @param grid matrice de caractère pour la grille
-	 * @param player joueur
-	 * @param x position x initiale du joueur
-	 * @param y position y initiale du joueur
-	 */
-	public Level(char[][] grid, Player player, int x, int y) {
-		
-		if(player==null) {
-			throw new IllegalArgumentException("A level must have a player");
-		}
-		this.grid = grid;
-		this.player = player;
-		
-		if(!(validPosition(x,y))) {
-			throw new IllegalArgumentException("Impossible placement");
-		}else {
-			player.setPosX(x);
-			player.setPosY(y);
-		}
-		
 	}
 	
 	/**
-	 * Retourne la grille du niveau
-	 * @return la grille du niveau
+	 * Retourne le nombre de pièce dans le niveau
+	 * @return lle nombre de pièce dans le niveau
 	 */
-	public char[][] getGrid(){
-		return this.grid;
+	public int getNbCoins(){
+		return this.nbCoins;
+	}
+	
+	
+	/**
+	 * Retourne le joueur du niveau
+	 * @return le joueur du niveau
+	 */
+	public Player getPlayer() {
+		return this.player;
+	}
+	
+	
+	/**
+	 * Retourne la grille de cellules
+	 * @return la grille de cellules
+	 */
+	public Cell[][] getGrid() {
+	    return grid;
 	}
 	
 	/**
@@ -95,21 +116,40 @@ public class Level {
 	 * @return un booléen si la position est valide (dans la grille et espace vide)
 	 */
 	public boolean validPosition(int x,int y) {
-		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || grid[x][y] == '#'));
+		return (!(x<0 || y<0 || x>=grid.length || y>=grid[0].length || !grid[x][y].getThroughable()));
 	}
 	
 	/**
 	 * Affiche la grille dans la console
 	 */
 	public void display() {
-		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +").");
+		System.out.println("Player : " + player.getName()+ ". Position : (" + player.getPosX()  + "," + player.getposY() +"). Score : " + player.getScore() + ". Reamining coins : " + nbCoins + ". Lives : " + player.getNbLives());
 		for(int i=0; i<grid.length; i++) {
-			for(int j=0; j<grid[0].length;j++) {
+			for(int j=0; j<grid[0].length;j++) {				
+				
 				if(i == player.getPosX() && j == player.getposY()) {
-					System.out.print('1');
-				}else {
-					System.out.print(grid[i][j]);
-				}				
+		            System.out.print('1');
+		        }
+		        else {
+
+		            Cell cell = grid[i][j];
+
+		            if(cell.getType() == CellType.WALL) {
+		                System.out.print('#');
+		            }
+		            else if(cell.getType() == CellType.TRAPPED) {
+		                System.out.print('*');
+		            }
+		            else if(cell.getType() == CellType.LOCKED) {
+		            	System.out.print('D');
+		            }
+		            else if(cell.getHasCoin()) {
+		                System.out.print('.');
+		            }
+		            else {
+		                System.out.print(' ');
+		            }
+		        }
 			}
 			System.out.println();
 		}
@@ -122,6 +162,7 @@ public class Level {
 	public void playerMove(Direction dir) {
 		int x = player.getPosX();
 		int y = player.getposY();
+		
 		
 		switch(dir) {
 			case UP: 
@@ -138,9 +179,25 @@ public class Level {
 				break;
 		}
 		
+		x = (x + grid.length) % grid.length;
+		y = (y + grid[0].length) % grid[0].length;
+		
 		if(validPosition(x,y)) {
 			player.setPosX(x);
 			player.setPosY(y);
+			
+			if(grid[player.getPosX()][player.getposY()].getHasCoin()) {
+				player.updateScore(10);
+				grid[player.getPosX()][player.getposY()].setHasCoin(false);;
+				nbCoins -= 1;
+			}
+			
+			if(grid[player.getPosX()][player.getposY()].getType() == CellType.TRAPPED) {
+				player.looseLife(2);
+				grid[player.getPosX()][player.getposY()].setType(CellType.EMPTY);
+				player.setPosX(player.getPosXInit());
+				player.setPosY(player.getPosYInit());
+			}
 		}
 		
 		display();
@@ -163,12 +220,36 @@ public class Level {
 	 * @return un booléen vrai si deux niveaux avec la même grille faux sinon
 	 */	
 	
+	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof Level && this.grid == ((Level) obj).getGrid()) {
-			return true;
-		}return false;
+		
+		if(this == obj) {
+	        return true;
+	    }
+
+	    if(!(obj instanceof Level)) {
+	        return false;
+	    }
+
+	    Level other = (Level) obj;
+
+	    if(grid.length != other.grid.length || grid[0].length != other.grid[0].length) {
+	        return false;
+	    }
+
+	    for(int i = 0; i < grid.length; i++) {
+	        for(int j = 0; j < grid[0].length; j++) {
+
+	            if(!grid[i][j].equals(other.grid[i][j])) {
+	                return false;
+	            }
+	        }
+	    }
+
+	    return true;
 	}
+	
 	
 
 }
